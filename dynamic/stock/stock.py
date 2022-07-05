@@ -22,8 +22,9 @@ class Solution:
         """
         a, b = -prices[0], 0
         for p in prices[1:]:
-            a = max(a, p)
+            a = max(a, b - p)
             b = max(a + p, b)
+            print(a, b)
         return max(a, b)
 
         # dp = [[0 for _ in range(2)] for _ in range(len(prices))]
