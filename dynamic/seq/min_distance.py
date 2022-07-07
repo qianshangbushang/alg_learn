@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
-# @FileName  :min_distence.py
+# @FileName  :min_distance.py
 # @Time      :2022/7/5 16:31
 
 

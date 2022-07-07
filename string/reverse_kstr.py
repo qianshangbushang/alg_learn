@@ -1,41 +1,25 @@
-class Solution:
-    def countSubstrings(self, s: str) -> int:
-        cnt = 0
-        for i in range(len(s)):
-            for j in range(i, len(s)):
-                if self.is_palindrome(s, i, j):
-                    cnt += 1
-        return cnt
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+# @FileName  :reverse_kstr.py
+# @Time      :2022/7/7 11:43
 
-    def is_palindrome(self, s, start, end):
+
+class Solution:
+    def reverseStr(self, s: str, k: int) -> str:
+        arr = [x for x in s]
+        for i in range(0, len(s), 2 * k):
+            self.reverse(arr, i, min(i + k, len(s)) - 1)
+        return "".join(arr)
+
+    def reverse(self, arr, start, end):
         while start < end:
-            if s[start] != s[end]:
-                return False
+            arr[start], arr[end] = arr[end], arr[start]
             start += 1
             end -= 1
-        return True
-
-
-class Solution:
-    def countSubstrings(self, s: str) -> int:
-        ret = 0
-        for idx in range(len(s)):
-            ret += self.cnt_pal(s, idx, idx)
-            ret += self.cnt_pal(s, idx, idx + 1)
-        return ret
-
-    def cnt_pal(self, s, left, right):
-        cnt = 0
-        while left >= 0 and right < len(s):
-            if s[left] != s[right]:
-                break
-            left -= 1
-            right += 1
-            cnt += 1
-        return cnt
+        return
 
 
 if __name__ == '__main__':
     s = Solution()
-    print(s.countSubstrings("abc"))
-    # print(s.is_palindrome("aaa", 1, 2))
+    print(s.reverseStr("abcdefg", 2))
+    print(s.reverseStr("abcd", 4))
