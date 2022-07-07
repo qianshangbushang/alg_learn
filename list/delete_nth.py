@@ -7,15 +7,31 @@ class ListNode:
 
 class Solution:
     def removeNthFromEnd(self, head: ListNode, n: int) -> ListNode:
-        dummy = ListNode(0, head)
-        fast, last = head, dummy
-        while n > 0:
-            fast = fast.next
-            n = n - 1
+        """
 
-        while fast:
-            fast = fast.next
+        :param head:
+        :param n:
+        :return:
+        """
+
+        """
+          1 -> 2 -> 3 -> 4 -> 5
+          
+        """
+        dummy = ListNode(-1, head)
+        last = dummy
+        first = head
+
+        while n > 0 and first:
+            first = first.next
+            n -= 1
+
+        if n > 0:
+            return dummy.next
+
+        while first:
+            first = first.next
             last = last.next
 
         last.next = last.next.next
-        return head
+        return dummy.next
