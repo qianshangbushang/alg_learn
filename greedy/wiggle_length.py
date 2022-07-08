@@ -10,6 +10,21 @@ from typing import List
 class Solution:
     def wiggleMaxLength(self, nums: List[int]) -> int:
         """
+        a: 上一次是上升的最大长度
+        b: 上一次是下降的最大长度
+        :param nums:
+        :return:
+        """
+        a, b = 1, 1
+        for idx in range(1, len(nums)):
+            if nums[idx] - nums[idx - 1] > 0:
+                a = max(a, b + 1)
+            if nums[idx] - nums[idx - 1] < 0:
+                b = max(b, a + 1)
+        return max(a, b)
+
+    def wiggleMaxLength1(self, nums: List[int]) -> int:
+        """
         循环选择峰和谷，可以找到最终结果
 
         如果中间还存在元素，满足  峰 》 当前元素 》 谷，  选择没问题
