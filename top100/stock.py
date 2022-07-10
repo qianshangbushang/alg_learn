@@ -5,4 +5,14 @@
 
 
 from typing import List
-from collections import defaultdict
+
+
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        buy = prices[0]
+        result = 0
+        for p in prices[1:]:
+            if p < buy:
+                buy = p
+            result = max(result, p - buy)
+        return result
