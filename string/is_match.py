@@ -18,7 +18,7 @@ class Solution:
         :return:
         """
         dp = [[False for _ in range(len(s) + 1)] for _ in range(len(p) + 1)]
-        dp[0][0] = True
+        dp[0][0] = True  # 无字符匹配
 
         for i in range(1, len(p) + 1):
             if p[i - 1] == "*":
@@ -26,24 +26,25 @@ class Solution:
 
         for i in range(1, len(p) + 1):
             for j in range(1, len(s) + 1):
-                if p[i - 1] == "*":
-                    dp[i][j] = dp[i][j - 1] or dp[i - 1][j]
+                if p[i - 1] == "*" and self.is_valid(s[j - 1]):
+                    dp[i][j] = dp[i - 1][j] or dp[i][j - 1]
                     continue
-                if p[i - 1] == "?":
+                if p[i - 1] == "?" and self.is_valid(s[j - 1]):
                     dp[i][j] = dp[i - 1][j - 1]
                     continue
-
                 dp[i][j] = dp[i - 1][j - 1] and p[i - 1] == s[j - 1]
-                # if not dp[i][j]:
-                #     return False
-        # print(*dp, sep='\n')
+        print(*dp, sep='\n')
         return dp[-1][-1]
+
+    def is_valid(self, s):
+        return ('0' <= s <= '9') or ('a' <= s <= 'z') or ('A' <= s <= 'Z') or s == '.'
 
 
 if __name__ == '__main__':
     s = Solution()
     # print(s.isMatch("aa", "a"))
     # print(s.isMatch("aa", "*"))
-    print(s.isMatch("adceb", "*a*b"))
-    print(s.isMatch("acdcb", "a*c?b"))
-    print(s.isMatch("", "***"))
+    # print(s.isMatch("adceb", "*a*b"))
+    # print(s.isMatch("acdcb", "a*c?b"))
+    # print(s.isMatch("", "***"))
+    print(s.isMatch("txt12.xls", "t?t*1*.*"))
