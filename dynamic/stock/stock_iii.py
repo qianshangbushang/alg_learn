@@ -22,6 +22,7 @@ class Solution:
         dp = [[0 for _ in range(4)] for _ in range(len(prices))]
         dp[0][0] = -prices[0]
         dp[0][2] = -prices[0]
+
         for idx in range(1, len(prices)):
             dp[idx][0] = max(dp[idx - 1][0], -prices[idx])
             dp[idx][1] = max(dp[idx - 1][0] + prices[idx], dp[idx - 1][1])
@@ -30,7 +31,19 @@ class Solution:
         return dp[len(dp) - 1][3]
 
 
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        a, b, c, d = -prices[0], 0, -prices[0], 0
+        for idx in range(len(prices)):
+            a = max(a, -prices[idx])
+            b = max(b, a + prices[idx])
+            c = max(c, b - prices[idx])
+            d = max(d, c + prices[idx])
+        return d
+
+
 if __name__ == '__main__':
     s = Solution()
     # print(s.maxProfit([3, 3, 5, 0, 0, 3, 1, 4]))
     print(s.maxProfit([1, 2, 3, 4, 5, 1, 6]))
+    print(s.maxProfit([3, 8, 5, 1, 7, 8]))
