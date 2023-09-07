@@ -1,7 +1,9 @@
-#!/usr/bin/env python
-# -*- coding:utf-8 -*-
-# @FileName  :stock_with_lock.py
-# @Time      :2022/7/4 15:03
+# 给定一个整数数组prices，其中第  prices[i] 表示第 i 天的股票价格 。​
+#
+# 设计一个算法计算出最大利润。在满足以下约束条件下，你可以尽可能地完成更多的交易（多次买卖一支股票）:
+#
+# 卖出股票后，你无法在第二天买入股票 (即冷冻期为 1 天)。
+# 注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
 
 
 from typing import List
@@ -9,41 +11,20 @@ from typing import List
 
 class Solution:
     def maxProfit(self, prices: List[int]) -> int:
-        """
-        a:  买入
-        b:  卖出
-        c:  冷冻
-
-        :param prices:
-        :return:
-        """
+        # 买入，卖出，冷冻
         a, b, c = -prices[0], 0, 0
-        for idx in range(1, len(prices)):
-            a, b, c = max(a, c - prices[idx]), max(b, a + prices[idx]), max(c, b)
+
+        for p in prices[1:]:
+            # 买入 上一个阶段必须是冷冻
+            a = max(a, c - p)
+            # 冷冻 上一个阶段必须是卖出, 当天不能冷冻， 必须再卖出之前算
+            c = max(c, b)
+            # 卖出，上一个阶段必须是买入
+            b = max(b, a + p)
+
         return max(b, c)
+    
 
-    def maxProfit1(self, prices: List[int]) -> int:
-        """
-        1. 买入
-        2. 卖出未冷冻
-        4. 冷冻
-        :param prices:
-        :return:
-        """
-        if len(prices) <= 1:
-            return 0
-
-        dp = [[0 for _ in range(3)] for _ in range(len(prices))]
-
-        dp[0][0] = -prices[0]
-        for idx in range(1, len(prices)):
-            dp[idx][0] = max(dp[idx - 1][0], dp[idx - 1][2] - prices[idx])
-            dp[idx][1] = max(dp[idx - 1][1], dp[idx - 1][0] + prices[idx])
-            dp[idx][2] = max(dp[idx - 1][2], dp[idx - 1][1])
-        print(dp)
-        return max(dp[len(prices) - 1][1:])
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     s = Solution()
     print(s.maxProfit([1, 2, 3, 0, 2]))
